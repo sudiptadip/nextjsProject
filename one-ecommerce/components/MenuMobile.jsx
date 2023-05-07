@@ -16,25 +16,30 @@ const subMenuData = [
   { id: 4, name: "Football shoes", doc_count: 107 },
 ];
 
-const Menu = ({ setShowMenu, showMenu }) => {
+const MenuMobile = ({ setShowMenu, showMenu, setMobileMenu }) => {
   return (
-    <ul className={`hidden md:flex items-center gap-8 font-medium text-black`}>
+    <ul className={`flex flex-col md:hidden font-bold absolute top-[50px] left-0 w-full h-[calc(100vh-50vh)] bg-white border-t text-black`}>
       {data.map((e, i) => (
         <React.Fragment key={i}>
           {e?.subMenu ? (
             <li
-              onMouseEnter={() => setShowMenu(true)}
-              onMouseLeave={() => setShowMenu(false)}
-              className="cursor-pointer flex items-center gap-2 relative"
+              onClick={() => setShowMenu((e) => !e)}
+              className="cursor-pointer py-4 px-5 border-b flex flex-col relative"
             >
-              {e.name}
-              <BsChevronDown size={14} />
+              <div className="flex justify-between items-center" >
+                {e.name}
+                <BsChevronDown size={14} />
+              </div>
               {showMenu && (
-                <ul className="bg-white absolute top-6 left-0 min-w-[250px] px-1 py-1 text-black shadow-lg">
+                <ul className="bg-black/[0.05] -mx-5 mt-4 -mb-4 ">
                   {subMenuData.map((el) => (
-                    <Link key={el.id} href={"/"} onClick={() => setShowMenu(false)} >
+                    <Link
+                      key={el.id}
+                      href={"/"}
+                      onClick={() => {setShowMenu(false); setMobileMenu(false)}}
+                    >
                       <li
-                        className={`h-12 flex justify-between items-center px-3 hover:bg-black/[0.3] rounded-md `}
+                        className={`py-4 px-8 border-t flex justify-between`}
                       >
                         {el.name}
                         <span className="opacity-50 text-sm">7</span>
@@ -45,8 +50,8 @@ const Menu = ({ setShowMenu, showMenu }) => {
               )}
             </li>
           ) : (
-            <li className={`cursor-pointer`}>
-              <Link href={e?.url}>{e.name}</Link>
+            <li className={`py-4 px-5 border-b`}>
+              <Link href={e?.url} onClick={() => setMobileMenu(false)} >{e.name}</Link>
             </li>
           )}
         </React.Fragment>
@@ -55,4 +60,4 @@ const Menu = ({ setShowMenu, showMenu }) => {
   );
 };
 
-export default Menu;
+export default MenuMobile;
